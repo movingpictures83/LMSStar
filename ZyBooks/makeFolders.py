@@ -6,7 +6,7 @@ rootdir = sys.argv[1]
 course = sys.argv[2]
 exam = sys.argv[3]
 sections = []
-for i in range(1, int(sys.argv[4])):
+for i in range(1, int(sys.argv[4])+1):
    sections.append(sys.argv[4+i])
 
 dates = []
