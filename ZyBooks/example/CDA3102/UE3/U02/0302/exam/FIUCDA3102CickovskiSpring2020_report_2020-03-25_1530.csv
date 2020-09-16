@@ -1,0 +1,23 @@
+Last name,First name,Primary email,School email,Student ID,Total (125),Participation total (102),Challenge total (23),Lab total (0),6.1 - Participation (0),6.2 - Participation (23),6.3 - Participation (11),6.4 - Participation (18),6.5 - Participation (30),6.6 - Participation (12),6.7 - Participation (8),6.1 - Challenge (0),6.2 - Challenge (2),6.3 - Challenge (6),6.4 - Challenge (8),6.5 - Challenge (0),6.6 - Challenge (4),6.7 - Challenge (3)
+Doe,John,jdoe001@fiu.edu,jdoe001@fiu.edu,1234567,96.8,100.0,82.61,0,N/A,100.0,100.0,100.0,100.0,100.0,100.0,N/A,100.0,100.0,50.0,N/A,100.0,100.0
+Doe,Jane,jdoe002@fiu.edu,jdoe002@fiu.edu,2345678,0.0,0.0,0.0,0,N/A,0.0,0.0,0.0,0.0,0.0,0.0,N/A,0.0,0.0,0.0,N/A,0.0,0.0
+Azuma,Goro,gazum001@fiu.edu,gazum001@fiu.edu,3456789,4.0,4.9,0.0,0,N/A,0.0,0.0,0.0,0.0,8.33,50.0,N/A,0.0,0.0,0.0,N/A,0.0,0.0
+Smith,Jim,jsmit964@fiu.edu,jsmit964@fiu.edu,4567890,94.4,97.06,82.61,0,N/A,100.0,100.0,94.44,93.33,100.0,100.0,N/A,100.0,33.33,100.0,N/A,100.0,100.0
+Hall,Thomas,thall025@fiu.edu,thall025@fiu.edu,5678901,100.0,100.0,100.0,0,N/A,100.0,100.0,100.0,100.0,100.0,100.0,N/A,100.0,100.0,100.0,N/A,100.0,100.0
+Cickovski,Trevor,tcickovs@fiu.edu,tcickovs@fiu.edu,6789012,4.8,5.88,0.0,0,N/A,26.09,0.0,0.0,0.0,0.0,0.0,N/A,0.0,0.0,0.0,N/A,0.0,0.0
+Floyd,Michael,mfloy235@fiu.edu,mfloy235@fiu.edu,7890123,0.0,0.0,0.0,0,N/A,0.0,0.0,0.0,0.0,0.0,0.0,N/A,0.0,0.0,0.0,N/A,0.0,0.0
+Tate,Golden,gtate074@fiu.edu,gtate074@fiu.edu,8901234,81.6,100.0,0.0,0,N/A,100.0,100.0,100.0,100.0,100.0,100.0,N/A,0.0,0.0,0.0,N/A,0.0,0.0
+Clausen,Jimmy,jclau003@fiu.edu,jclau003@fiu.edu,9012345,96.8,100.0,82.61,0,N/A,100.0,100.0,100.0,100.0,100.0,100.0,N/A,100.0,100.0,62.5,N/A,100.0,66.67
+Rosenberg,Mark,mrose005@fiu.edu,mrose005@fiu.edu,9876543,81.6,100.0,0.0,0,N/A,100.0,100.0,100.0,100.0,100.0,100.0,N/A,0.0,0.0,0.0,N/A,0.0,0.0
+Stone,Emma,eston794@fiu.edu,eston794@fiu.edu,8765432,100.0,100.0,100.0,0,N/A,100.0,100.0,100.0,100.0,100.0,100.0,N/A,100.0,100.0,100.0,N/A,100.0,100.0
+TheCat,Pusheen,pusheen@fiu.edu,pusheen@fiu.edu,7654321,100.0,100.0,100.0,0,N/A,100.0,100.0,100.0,100.0,100.0,100.0,N/A,100.0,100.0,100.0,N/A,100.0,100.0
+Torvalds,Linus,ltorv001@fiu.edu,ltorv001@fiu.edu,6543210,87.2,99.02,34.78,0,N/A,100.0,100.0,94.44,100.0,100.0,100.0,N/A,50.0,0.0,0.0,N/A,100.0,100.0
+Windows,Microsoft,windoze@fiu.edu,windoze@fiu.edu,5432109,36.0,38.24,26.09,0,N/A,100.0,100.0,16.67,0.0,0.0,25.0,N/A,0.0,100.0,0.0,N/A,0.0,0.0
+Turing,Alan,aturi001@fiu.edu,aturi001@fiu.edu,4321098,98.4,100.0,91.3,0,N/A,100.0,100.0,100.0,100.0,100.0,100.0,N/A,100.0,100.0,75.0,N/A,100.0,100.0
+Peart,Neil,npear005@fiu.edu,npear005@fiu.edu,3210987,78.4,96.08,0.0,0,N/A,100.0,100.0,100.0,100.0,66.67,100.0,N/A,0.0,0.0,0.0,N/A,0.0,0.0
+Mullen Jr,Larry,lmull001@fiu.edu,lmull001@fiu.edu,2109876,83.2,100.0,8.7,0,N/A,100.0,100.0,100.0,100.0,100.0,100.0,N/A,100.0,0.0,0.0,N/A,0.0,0.0
+Carroll,Pete,carroll@fiu.edu,carroll@fiu.edu,1098765,100.0,100.0,100.0,0,N/A,100.0,100.0,100.0,100.0,100.0,100.0,N/A,100.0,100.0,100.0,N/A,100.0,100.0
+Morris,Zack,zmorr193@fiu.edu,zmorr193@fiu.edu,0987654,25.6,29.41,8.7,0,N/A,100.0,63.64,0.0,0.0,0.0,0.0,N/A,100.0,0.0,0.0,N/A,0.0,0.0
+The Grouch,Oscar,groucho@fiu.edu,groucho@fiu.edu,1357924,0.0,0.0,0.0,0,N/A,0.0,0.0,0.0,0.0,0.0,0.0,N/A,0.0,0.0,0.0,N/A,0.0,0.0
+Marx,Karl,marxist@fiu.edu,marxist@fiu.edu,3579246,100.0,100.0,100.0,0,N/A,100.0,100.0,100.0,100.0,100.0,100.0,N/A,100.0,100.0,100.0,N/A,100.0,100.0
+Bond,James,jbond007@fiu.edu,jbond007@fiu.edu,5792468,76.8,92.16,8.7,0,N/A,100.0,100.0,100.0,100.0,100.0,0.0,N/A,0.0,33.33,0.0,N/A,0.0,0.0
