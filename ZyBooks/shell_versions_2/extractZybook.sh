@@ -1,9 +1,15 @@
 #!/bin/bash
 # USAGE: ./extractZybook.sh (filename) (column number)
+USAGE="./extractZybook.sh (filename) (column number)"
 file=$1
 column=$2
 OLDIFS=$IFS
 IFS="(,|\ )"
+
+if [ ! -e ${file} ]; then
+	echo "ERROR: Your given file does not exist"
+	echo $USAGE
+fi
 
 while read -a array
 do
