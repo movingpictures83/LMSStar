@@ -38,12 +38,16 @@ if [ $exArrLen -ne $classArrLen ]; then
 	echo $USAGE
 	exit 1
 fi
+#CALCULATE SCORE & EXIT
 index=0
 lineNum=1
 for i in "${examtimeArr[@]}"; do
-	x=$(echo "(${classtimeArr[$index]} + (${i} * 0.75))" | bc)
+	#x - adjusted points
+	x=$(echo "${classtimeArr[$index]} + ((${classtimeArr[$index]} - ${i}) * 0.75)" | bc)
 	xPercent=$(echo "scale=2;${x}/${totalPoints}" | bc)
-	sed -i "${lineNum} s/$/ ${x} ${xPercent}/" $outFile
+	# append calculated scores to output file 
+	# TODO get this working for macOS
+	sed -i "${lineNum} s/$/ ${x} ${xPercent}/p" $outFile
 	((index=index+1))
 	((lineNum=lineNum+1))
 done
