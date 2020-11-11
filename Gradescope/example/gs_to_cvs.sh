@@ -27,4 +27,4 @@ function rmcol(col, i){
 	
 	
 }
-END{print("done")}' $1
+END{print("done")}' $1 > $2
