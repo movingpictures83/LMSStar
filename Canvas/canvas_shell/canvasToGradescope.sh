@@ -1,12 +1,12 @@
 # /bin/bash
 
 #USAGE: ./canvasToGradescope.sh (Canvas exam column) (Canvas .csv file) (gradescope .csv file)
-USAGE="./canvasToGradescope.sh (Canvas exam column) (Canvas .csv file) (chosen Gradescope file name"
+USAGE="./canvasToGradescope.sh (Canvas exam column) (Canvas .csv file) (chosen Gradescope file name)"
 CANVAS_TEMP_PATH="/tmp/canvasToGradescope_sortedData_FROM_CANVAS.txt"
 examColNum=$1
 GS_FILE=$3
 validEntry=0
-#CHECK IF FILES EXIST
+#CHECK IF INPUT(CANVAS) FILE EXISTS
 if [ ! -e $2 ]; then
     echo "ERROR: Your Canvas input file could not be found."
     echo $USAGE
@@ -14,10 +14,14 @@ if [ ! -e $2 ]; then
 else
     canvasInFile=$2
 fi
+#
+# Makes us able to check for output(gradescope) file names multiple times
+# usage: checkForExistingFile() $[filename]
+#
 checkForExistingFile() {
 if [ -e $GS_FILE ]; then
-    printf "ERROR: Your output file: \"%s\" already exists, would you like to overwrite ('O' or 'o'), enter a new name ('N' or 'n'), or quit ('Q' or 'q')?" "${canvasInFile}"
-        read; echo $REPLY
+    printf "ERROR: Your output file: \"%s\" already exists, would you like to overwrite ('O' or 'o'), enter a new name ('N' or 'n'), or quit ('Q' or 'q')? " "${GS_FILE}"
+        read
         case $REPLY in
         O|o) 
                 validEntry=$((validEntry+1));
@@ -40,19 +44,20 @@ if [ -e $GS_FILE ]; then
         esac
 fi
 }
+#
+# Checks file extension
+#
 checkFileExt() {
-    GS_FILE_LEN=${#1}
-    GS_NUM=$(($GS_FILE_LEN - 4)) #get position of file extension in string
-    GS_FILE_EXT="${GS_FILE:GS_NUM:4}" #extract substring
-    
-    if [[ ! ${GS_FILE_EXT} =~ '.csv' ]]; then
-        printf "WARNING: you entered \"%s\", not \".csv\" file extension.\nCreating a .csv file of the same name.\n" "${1}"
-        GS_FILE=${GS_FILE/$GS_FILE_EXT/.csv}
-        echo "DEBUG:::: " $GS_FILE
-    fi
+    newFILE=$(echo ${GS_FILE} | cut -d '.' -f1)
+    unset GS_FILE
+    GS_FILE=${newFILE}.csv
+    echo $GS_FILE
+    unset newFILE
 }
 #Check & correct a wrong file extension
+echo "WHATWHATH"
 checkFileExt ${GS_FILE}
+#while loop is needed to check if a newly entered file also already exists
 while [ $validEntry -eq 0 ]; do
     checkForExistingFile ${GS_FILE}
 done
