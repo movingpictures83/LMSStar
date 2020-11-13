@@ -9,8 +9,8 @@ partCol=$4
 totalPoints=$5
 
 if [ $# -eq 0 ]; then
-	echo "No arguments given."
 	echo $USAGE
+	exit 1
 fi
 
 if [ -e $1 ]; then
