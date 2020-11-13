@@ -6,6 +6,12 @@ CANVAS_TEMP_PATH="/tmp/canvasToGradescope_sortedData_FROM_CANVAS.txt"
 examColNum=$1
 GS_FILE=$3
 validEntry=0
+#give usage if no args
+if [ $# -e 0 ]; then
+    echo $USAGE
+    exit 1
+fi
+
 #CHECK IF INPUT(CANVAS) FILE EXISTS
 if [ ! -e $2 ]; then
     echo "ERROR: Your Canvas input file could not be found."

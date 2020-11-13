@@ -3,6 +3,12 @@
 #USAGE: ./extractCanvas.sh (input file) (column number)
 USAGE="USAGE: ./extractCanvas.sh (input file) (column number)"
 
+if [ $# -e 0 ]; then
+	echo "ERROR: No arguments given."
+	echo $USAGE
+	exit 1
+fi
+
 if [ -e $1 ]; then
 	inFile=$1
 else
