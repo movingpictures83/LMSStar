@@ -10,10 +10,10 @@ for i in range(1, int(sys.argv[4])+1):
    sections.append(sys.argv[4+i])
 
 dates = []
-for i in range(5, len(sys.argv)):
+for i in range(4+int(sys.argv[4])+1, len(sys.argv)):
    dates.append(sys.argv[i])
 
-course = rootdir+course
+course = rootdir+"/"+course
 if not os.path.exists(course):
    os.mkdir(course)
 os.mkdir(course+"/"+exam)
