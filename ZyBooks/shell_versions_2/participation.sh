@@ -2,17 +2,23 @@
 
 #USAGE: ./participation.sh (classtime file) (examtime file) (outputfile) (data column number) (total points possible)
 
-USAGE="./participation.sh (classtime file) (examtime file) (outputfile) (data column number) (total points possible) [weight adjustment]"
-#TODO add capability use custom grade weight (eg, 0.75, 0.5, etc
-outFile=$3
+USAGE="./participation.sh (classtime file) (examtime file) (outputfile csv) (data column number) (total points possible) [weight adjustment]"
+outFile=$(echo $3 | cut -d '.' -f1) #converts possible bad file ext to csv
+outFile=${outFile}.csv
 partCol=$4
 totalPoints=$5
-
-if [ $# -eq 0 ]; then
+if [ $# -lt 5 -o $# -gt 6 ]; then
+	echo "ERROR: Wrong number of arguments given."
 	echo $USAGE
 	exit 1
 fi
-
+#set to default or custom weight adjustment
+if [ $# -eq 5 ]; then
+	adjWeight=0.75
+elif [ $# -eq 6 ]; then
+	adjWeight=$6
+fi
+# check if input files exist
 if [ -e $1 ]; then
 	classtimeFile=$1
 else
@@ -32,7 +38,7 @@ fi
 examtimeArr=($(awk -F, -v var=${partCol} 'NR>1 { print $var }' $examtimeFile))
 classtimeArr=($(awk -F, -v var=${partCol} 'NR>1 { print $var }' $classtimeFile))
 #create outfile with names & PIDs, append to the file later
-awk -F, 'NR>1 { print $1,$2,$5 }' $classtimeFile > $outFile
+awk -F, 'NR>1 { printf "%s,%s,%s\n", $1, $2, $5 }' $classtimeFile > $outFile
 
 exArrLen=${#examtimeArr[@]}
 classArrLen=${#classtimeArr[@]}
@@ -45,16 +51,21 @@ fi
 #CALCULATE SCORE & EXIT
 index=0
 lineNum=1
+newGradePoints=""
+newGradePerc=""
 for i in "${examtimeArr[@]}"; do
 	#x - adjusted points
-	x=$(echo "${classtimeArr[$index]} + ((${classtimeArr[$index]} - ${i}) * 0.75)" | bc)
-	xPercent=$(echo "scale=2;${x}/${totalPoints}" | bc)
-	# append calculated scores to output file 
-	# TODO get this working for macOS
-	#sed -i "${lineNum} s/$/ ${x} ${xPercent}/p" $outFile
-	y=`cat $outFile`
-	sed "${lineNum} s/$/${x} ${xPercent}/p" $y >> $outFile
+	x=$(echo "${classtimeArr[$index]} + ((${classtimeArr[$index]} - ${i}) * ${adjWeight})" | bc | cut -d '-' -f2)
+	xPercent=$(echo "scale=2;${x}/${totalPoints}" | bc | cut -d '-' -f2)
+#	newGradePoints+=",$x"
+#	newGradePerc+=",$xPercent"
+	sed -i "${lineNum} s/$/,${x},${xPercent}/" $outFile
 	((index=index+1))
 	((lineNum=lineNum+1))
+##	awk -F, -v newPoints=${newGradePoints} -v newPerc=${newGradePerc} -v line=${lineNum} '
+#	BEGIN { split(newPoints,pointsArr,",")
+#			split(newPerc,percArr,",")
+#		 }
+#		NR = line { print $1,$2,$5,$pointsArr[NR],$percArr[NR] }' $classtimeFile > $outFile
 done
 exit 0

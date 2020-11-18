@@ -6,6 +6,12 @@ column=$2
 OLDIFS=$IFS
 IFS="(,|\ )"
 
+if [ $# -lt 2 -o $# -gt 2 ]
+then
+	echo "Usage: ./extractZybook.sh (filename) (column number)"
+	exit 2
+fi
+
 if [ ! -e ${file} ]; then
 	echo "ERROR: Your given file does not exist"
 	echo $USAGE
