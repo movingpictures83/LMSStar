@@ -7,7 +7,8 @@ examColNum=$1
 GS_FILE=$3
 validEntry=0
 #give usage if no args
-if [ $# -e 0 ]; then
+if [ ! $# -eq 3 ]; then
+    echo "ERROR: Wrong number of arguments given."
     echo $USAGE
     exit 1
 fi
@@ -25,29 +26,28 @@ fi
 # usage: checkForExistingFile() $[filename]
 #
 checkForExistingFile() {
-if [ -e $GS_FILE ]; then
-    printf "ERROR: Your output file: \"%s\" already exists, would you like to overwrite ('O' or 'o'), enter a new name ('N' or 'n'), or quit ('Q' or 'q')? " "${GS_FILE}"
-        read
-        case $REPLY in
-        O|o) 
-                validEntry=$((validEntry+1));
-        ;;
-
-        N|n) 
+    if [ -e $GS_FILE ]; then
+        printf "ERROR: Your output file: \"%s\" already exists, would you like to overwrite ('O' or 'o'), enter a new name ('N' or 'n'), or quit ('Q' or 'q')? " "${GS_FILE}"
+            read
+            case $REPLY in
+            O|o) 
+                validEntry=$((validEntry + 1));
+            ;;
+            N|n) 
                 unset GS_FILE;
                 read -p "Enter a new file name (.csv extension) " GS_FILE;
                 checkFileExt ${GS_FILE}; #Check for correct extension of new file
             ;;
-
             Q|q) 
                 exit 1;
                 validEntry=$((validEntry+1));
             ;;
-
             *) 
                 printf "ERROR: Invalid input. Valid commands:\nO or o: overwrite the output file\nN or n: enter a new file name.\nQ or q: quit program to start over\nWhat would you like to do?\n";
             ;;
-        esac
+            esac
+else # file doesn't exist, so don't take input & exit loop
+    validEntry=$((validEntry + 1))
 fi
 }
 #
@@ -61,10 +61,10 @@ checkFileExt() {
     unset newFILE
 }
 #Check & correct a wrong file extension
-echo "WHATWHATH"
 checkFileExt ${GS_FILE}
 #while loop is needed to check if a newly entered file also already exists
 while [ $validEntry -eq 0 ]; do
+    echo "CHECKING EXISTING FILE:"
     checkForExistingFile ${GS_FILE}
 done
 #Check if Gradescope output file exists
@@ -73,22 +73,24 @@ declare -a extraCreditCols
 read -p "Do you have extra credit column(s) related to this exam? Enter \"Y\" or \"N\": " yesOrNo
 if [[ ${yesOrNo} =~ Y|y ]]; then
     echo "Enter one or more column numbers where you have extra credit data for the exam:"
-    echo "Press any non-numerical key + enter when done"
+    echo "Enter \"Q\" or \"q\" when done."
     #enter extra credit columns until user enters a non-number
     while read input; do
-        echo ${extraCreditCols[@]}
         if [[ $input =~ Q|q ]]; then
             break
         else
             extraCreditCols+=($input)
         fi
+        echo ${extraCreditCols[@]}
     done < /dev/tty
 fi
 # if extraCreditColsArray is not empty, use them when making conversion
 
 OLDIFS=${IFS}
 IFS=','
-rm $GS_FILE #allows to append to empty file
+if [ -e ${GS_FILE} ]; then
+    rm $GS_FILE #allows to append to empty file
+fi
 while read -a row; do
     newRow="${row[0]},${row[2]},${row[$examColNum]}" #name,SID,ExamGrade
     if [ ${#extraCreditCols[@]} -ne 0 ]; then
