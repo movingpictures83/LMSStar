@@ -23,6 +23,7 @@ function rmcol(col, i){
 		$NF=$4
 	}
 	rmcol(4);
+	rmcol(4);
 	print $0;
 	
 	
