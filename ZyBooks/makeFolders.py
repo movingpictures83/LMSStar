@@ -13,6 +13,8 @@ dates = []
 for i in range(4+int(sys.argv[4])+1, len(sys.argv)):
    dates.append(sys.argv[i])
 
+if not os.path.exists(rootdir):
+   os.mkdir(rootdir)
 course = rootdir+"/"+course
 if not os.path.exists(course):
    os.mkdir(course)
