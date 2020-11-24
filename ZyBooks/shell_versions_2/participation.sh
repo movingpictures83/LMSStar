@@ -7,6 +7,7 @@ outFile=$(echo $3 | cut -d '.' -f1) #converts possible bad file ext to csv
 outFile=${outFile}.csv
 partCol=$4
 totalPoints=$5
+#if number of arguments are not 5 or 6, error with input
 if [ $# -lt 5 -o $# -gt 6 ]; then
 	echo "ERROR: Wrong number of arguments given."
 	echo $USAGE

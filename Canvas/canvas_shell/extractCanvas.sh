@@ -23,12 +23,12 @@ else
 	exit 2
 fi
 #vars needed to dynamically print any number of columns
-columnsGiven=$(echo $@ | cut -d ' ' --output-delimiter "," -f 2-)
 columnsLength=$(expr $# - 1)
+columnsGiven=$(echo $@ | sed 's/ /,/g' | cut -d ',' -f 2-)
 
 #begin extracting info
 if [ ${columnsLength} -eq 1 ]; then
-	awk -F, -v col=${columnsGiven} 'NR > 2 { printf "%s,%s,%s\n",$1,$3,$col }' ${inFile}
+	awk -F, -v col=${columnsGiven} 'NR > 2 { printf "%s,%s,%s\n",$1,$3,col }' ${inFile}
 else
 	awk -F, -v cols=${columnsGiven} -v colsLen=${columnsLength} '
 	BEGIN { split(cols, colsArr, ",") }

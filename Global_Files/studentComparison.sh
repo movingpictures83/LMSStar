@@ -4,7 +4,7 @@
 #NEEDS AT LEAST ONE MAIN LMS FILE (CANVAS/MOODLE), AND A MINUMUM OF 2 FILES TO COMPARE
 #FILES CAN BE IN ANY ORDER, AS LONG AS THE MAIN LMS FILES ARE GIVEN FIRST
 
-USAGE="./studentComparison.sh (Canvas File) (Moodle File) [Gradescope file] [ZyBooks file]"
+USAGE="./studentComparison.sh -c (Canvas File) -m (Moodle File) -g [Gradescope file] -z [ZyBooks file]"
 
 #USE getopt to decipher which file belongs to which platform???
 
