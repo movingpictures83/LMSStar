@@ -1,0 +1,15 @@
+.TH canvasToGradescope 1 2020-11-23 LMSSTAR
+.SH NAME
+canvasToGradescope \- convert Canvas data to Gradescope
+.SH SYNOPSIS
+.B canvasToGradescope
+(canvas exam column)
+(canvas .csv file)
+(chosen gradescope file name)
+.SH DESCRIPTION
+.B canvasToGradescope
+Takes exam data from canvas and converts it to a gradescope-ready CSV file. Please have your exam/extra credit column numbers from Canvas noted in advance.
+Exam total is supplied as first argument, & an arbitrary number of extra credit columns is evaluated via input loop at runtime.
+
+.SH AUTHOR
+Robert Szabo <rlszabo966@gmail.com>
