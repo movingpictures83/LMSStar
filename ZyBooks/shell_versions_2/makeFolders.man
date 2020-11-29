@@ -1,0 +1,24 @@
+.TH MAKEFOLDERS 1 2020-11-23 LMSSTAR
+
+.SH NAME
+makeFolders.sh
+
+.SH SYNOPSIS
+.B makeFolders
+(root directory)
+(course)
+(exam)
+(number of sections)
+(sections<LIST>)
+
+.SH DESCRIPTION
+.B makeFolders.sh
+Creates directories for a course in the order of: COURSE>EXAM>SECTIONS
+
+.SH OPTIONS
+.TP
+.BR (sections<List>)
+give the name(s) of your course section(s). You need a minimum of one section.
+
+.SH AUTHOR
+Robert Szabo <rlszabo966@gmail.com>
