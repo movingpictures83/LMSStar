@@ -8,9 +8,9 @@ USAGE="./studentComparison.sh -c (Canvas File) -m (Moodle File) -g [Gradescope f
 NOFILE=" doesn't exist"
 #USE getopt to decipher which file belongs to which platform???
 
-#Will then have 6 different arrays.
-#Make a loop that compares the strings of the names. If match, figure out what number that name has in the
-#two different arrays. Then compare the ID's at those same spots.
+
+#Make a loop that compares the strings of the ID's. If match, figure out what number that name has in the
+#two different arrays. Then compare the Names's at those same spots.
 
 #Create a method that checks that name only contains a-z
 #ID only contains digits
@@ -22,28 +22,57 @@ NOFILE=" doesn't exist"
 
 arrNamesCANV=()
 arrIDsCANV=()
+arrNamesMOOD=()
+arrIDsMOOD=()
+arrNamesZYB=()
+arrIDsZYB=()
 counter=0
 
+
+
+
+
+
+#Doesnt work
+echoArrays(){
+  for value in "${s1[@]}"
+  do
+    echo $value
+  done
+}
+
 addNameIDCanvas(){
-  while IFS=","; read s1 s2 s3;
+  while IFS=","; read s1 s2 s3 s4;
   do
     let "counter=counter+1"
     if (( $counter>2 )); then
-
       arrNamesCANV+=($s1)
-      arrIDsCANV+=($s2)
+      arrIDsCANV+=($s3)
     fi
   done < $1
 }
 
 addNameIDMoodle(){
-  while IFS=","; read s1 s2 s3;
+  counter=0
+  while IFS=","; read s1 s2 s3 s4;
   do
     let "counter=counter+1"
     if (( $counter>1 )); then
+      arrNamesMOOD+=($s1)
+      arrIDsMOOD+=($s3)
+    fi
+  done < $1
+}
 
-      arrNames+=($s1)
-      arrIDs+=($s2)
+addNameIDZYB(){
+  fullName=""
+  while IFS=","; read s1 s2 s3 s4 s5 s6;
+  do
+    let "counter=counter+1"
+    if (( $counter>1 )); then
+      fullName="$s2 $s1"
+      arrNamesZYB+=($fullName)
+      arrIDsZYB+=($s5)
     fi
   done < $1
 }
@@ -62,6 +91,7 @@ while getopts "c:m:g:z:" option; do
             CANVAS_FILE=${OPTARG}
             #echo "CANVAS"
             #echo $CANVAS_FILE
+            addNameIDCanvas $CANVAS_FILE
             #check that file exists
             if ! test -f "$CANVAS_FILE"; then
                 echo $CANVAS_FILE $NOFILE
@@ -72,6 +102,7 @@ while getopts "c:m:g:z:" option; do
             MOODLE_FILE=${OPTARG}
             #echo "MOODLE"
             #echo $MOODLE_FILE
+            addNameIDMoodle $MOODLE_FILE
             if ! test -f "$MOODLE_FILE"; then
                 echo $MOODLE_FILE $NOFILE
                 exit 1
@@ -88,12 +119,13 @@ while getopts "c:m:g:z:" option; do
         ;;
         z)
             ZYBOOKS_FILE=${OPTARG}
+            addNameIDZYB $ZYBOOKS_FILE
             #echo "ZYBOOKS"
             #echo $ZYBOOKS_FILE
-            if ! test -f "$ZYBOOKS_FILE="; then
-                echo $ZYBOOKS_FILE $NOFILE
-                exit 1
-            fi
+            #if ! test -f "$ZYBOOKS_FILE="; then
+            #    echo $ZYBOOKS_FILE $NOFILE
+            #    exit 1
+            #fi
         ;;
         *)
             echo "INVALID FLAG. ABORTING PROCESS"
@@ -105,16 +137,76 @@ while getopts "c:m:g:z:" option; do
 done
 
 
-addNameIDCanvas $CANVAS_FILE
 
-for value in "${arrNamesCANV[@]}"
+
+sortedIDsCANV=()
+
+
+counterZYB=0
+counterCAN=0
+
+#ID and name comparison
+for value in "${arrIDsZYB[@]}"
 do
-  echo $value
+
+  ZybID=$value
+  ZybName=${arrNamesZYB[counterZYB]}
+
+  let "counterZYB=counterZYB+1"
+  for value in "${arrIDsCANV[@]}"
+  do
+    #let "counterCAN=counterCAN+1"
+    if [ "$ZybID" = "$value" ]; then
+      echo "ID match between student $ZybName from Zybook record"
+
+      sortedIDsCANV+=($value)
+N
+    fi
+  done
 done
 
-for value in "${arrIDsCANV[@]}"
-do
-  echo $value
-done
+echo $counterZYB
+
+
+##ECHO SORTED##
+#for value in "${sortedIDsCANV[@]}"
+#do
+#  echo $value
+#done
+
+##ECHO ZYBOOK##
+#for value in "${arrNamesZYB[@]}"
+#do
+#  echo $value
+#done
+
+#for value in "${arrIDsZYB[@]}"
+#do
+#  echo $value
+#done
+
+##ECHO MOODLE##
+
+#for value in "${arrNamesMOOD[@]}"
+#do
+#  echo $value
+#done
+
+#for value in "${arrIDsMOOD[@]}"
+#do
+#  echo $value
+#done
+
+
+##ECHO CANVAS##
+#for value in "${arrNamesCANV[@]}"
+#do
+#  echo $value
+#done
+
+#for value in "${arrIDsCANV[@]}"
+#do
+#  echo $value
+#done
 
 exit 0
