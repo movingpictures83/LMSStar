@@ -1,4 +1,7 @@
-awk 'BEGIN{
+if [ "$#" -ne 3 ]; then
+	echo "Usage: 3 arguments required. Inputfile, Outputfile name, and exam name"
+fi
+awk -v var="$3" 'BEGIN{
 	FS=",";
 	OFS=",";
 	fields[""]="";
@@ -10,20 +13,20 @@ function rmcol(col, i){
 	NF--;
 }
 {
-	#Converting emails in gradescope to SIS Login ID
-	if((x=index($3, "@")) > 0){
-		$3=substr($3,1 ,x-1);
-	}
 	#Converting column names to Canvas column names
 	if(FNR == 1){
 		$1 ="Student";
 		$2 ="SIS User ID";
-		$NF = "Final Score";
+		$4 = var " Final Score";
 	}else{
-		$NF=$4
+		$NF=$4;
+		$4 = $NF;
 	}
-	rmcol(4);
-	rmcol(4);
+
+	
+	while(NF>4){
+		rmcol(NF);
+	}
 	print $0;
 	
 	
