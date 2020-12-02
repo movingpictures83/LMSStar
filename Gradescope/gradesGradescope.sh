@@ -1,3 +1,5 @@
+#!/bin/bash
+
 #Usage: ./gradesGradescope.sh (filename) (outputfile)
 #Example: ./gradesGradescope.sh example/example1.csv testOutput.txt
 #$1 = filename
