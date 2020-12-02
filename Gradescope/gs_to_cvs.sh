@@ -1,6 +1,22 @@
+#!/bin/bash
+
+#Usage: ./gs_to_cvs.sh (input filename) (output filename) (exam name)
+#Example: ./gs_to_cvs.sh example/example1.csv example/output.csv Exam3
+
+#$1 = input filename
+#$2 = output filename
+#$3 = exam name
+
 if [ "$#" -ne 3 ]; then
 	echo "Usage: 3 arguments required. Inputfile, Outputfile name, and exam name"
+	exit 2;
 fi
+
+if [  ! -f "$1" ]; then
+	echo "Input file invalid";
+	exit 2;
+fi
+
 awk -v var="$3" 'BEGIN{
 	FS=",";
 	OFS=",";
