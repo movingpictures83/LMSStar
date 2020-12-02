@@ -2,11 +2,13 @@
 # USAGE: ./extractZybook.sh (filename) (column number)
 USAGE="./extractZybook.sh (filename) (column number)"
 file=$1
-column=$2
+columns=$(echo $* | cut -d ' ' -f2-)
+columnsArr=($columns)
+echo $columns
 OLDIFS=$IFS
 IFS="(,|\ )"
 
-if [ $# -lt 2 -o $# -gt 2 ]
+if [ $# -lt 2 ]
 then
 	echo "Usage: ./extractZybook.sh (filename) (column number)"
 	exit 2
@@ -17,8 +19,11 @@ if [ ! -e ${file} ]; then
 	echo $USAGE
 fi
 
-while read -a array
-do
-	printf "%s %s %s\n" "${array[1]}" "${array[2]}" "${array[$column]}"
-done < $file
-IFS=$OLDIFS
+ while read -a array; do
+	printf "%s,%s" "${array[1]}" "${array[2]}"
+	for col in ${columns[@]}; do
+		printf ",%s" "${array[$col]}"
+	done
+	printf "\n"
+ done < $file
+ IFS=$OLDIFS
