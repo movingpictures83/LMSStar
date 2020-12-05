@@ -27,7 +27,7 @@ arrIDsMOOD=()
 arrNamesZYB=()
 arrIDsZYB=()
 counter=0
-
+totalErrors=0
 
 
 
@@ -41,44 +41,91 @@ echoArrays(){
   done
 }
 
-addNameIDCanvas(){
-  while IFS=","; read s1 s2 s3 s4;
-  do
-    let "counter=counter+1"
-    if (( $counter>2 )); then
-      arrNamesCANV+=($s1)
-      arrIDsCANV+=($s3)
-    fi
-  done < $1
+getErrorCount(){
+  if (( $totalErrors==0 )); then
+    echo "All emails legitimate"
+  fi
 }
 
-addNameIDMoodle(){
+#Checks that email is legitimate
+emailVerify(){
+
   counter=0
-  while IFS=","; read s1 s2 s3 s4;
-  do
-    let "counter=counter+1"
-    if (( $counter>1 )); then
-      arrNamesMOOD+=($s1)
-      arrIDsMOOD+=($s3)
-    fi
-  done < $1
+  regex="^[a-z0-9!#\$%&'*+/=?^_\`{|}~-]+(\.[a-z0-9!#$%&'*+/=?^_\`{|}~-]+)*@([a-z0-9]([a-z0-9-]*[a-z0-9])?\.)+[a-z0-9]([a-z0-9-]*[a-z0-9])?\$"
+  if [[ $2 == "MOODLE" ]] ; then
+    while IFS=","; read s1 s2 s3 s4 s5 s6 s7;
+    do
+      let "counter=counter+1"
+      if (( $counter>1 )); then
+        i="$s6"
+        if [[ $i =~ $regex ]] ; then
+            :
+        else
+            echo "$s1 $s2's email not OK ($s6)"
+            let "totalErrors=totalErrors+1"
+        fi
+      fi
+    done < $1
+  elif [[ $2 == "ZYBOOKS" ]]; then
+    while IFS=","; read s1 s2 s3 s4 s5 s6 s7;
+    do
+      let "counter=counter+1"
+      if (( $counter>1 )); then
+        i="$s3"
+        if [[ $i =~ $regex ]] ; then
+            :
+        else
+            echo "$s2 $s1's email not OK ($s3)"
+            let "totalErrors=totalErrors+1"
+        fi
+      fi
+    done < $1
+  fi
+
+    #statements
 }
 
-addNameIDZYB(){
-  fullName=""
-  while IFS=","; read s1 s2 s3 s4 s5 s6;
-  do
-    let "counter=counter+1"
-    if (( $counter>1 )); then
-      fullName="$s2 $s1"
-      arrNamesZYB+=($fullName)
-      arrIDsZYB+=($s5)
-    fi
-  done < $1
+addNameID(){
+  if [[ $2 == "CANVAS" ]] ; then
+    echo "Canvas file"
+
+    while IFS=","; read s1 s2 s3 s4;
+    do
+      let "counter=counter+1"
+      if (( $counter>2 )); then
+        arrNamesCANV+=($s1)
+        arrIDsCANV+=($s3)
+      fi
+    done < $1
+  elif [[ $2 == "MOODLE" ]]; then
+    echo "Moodle file"
+
+    counter=0
+    while IFS=","; read s1 s2 s3 s4;
+    do
+      let "counter=counter+1"
+      if (( $counter>1 )); then
+        arrNamesMOOD+=($s1)
+        arrIDsMOOD+=($s3)
+      fi
+    done < $1
+  elif [[ $2 == "ZYBOOKS" ]]; then
+    echo "ZYB file"
+
+    fullName=""
+    while IFS=","; read s1 s2 s3 s4 s5 s6;
+    do
+      let "counter=counter+1"
+      if (( $counter>1 )); then
+        fullName="$s2 $s1"
+        arrNamesZYB+=($fullName)
+        arrIDsZYB+=($s5)
+      fi
+    done < $1
+  fi
+
 }
 
-
-#echo "Script was called with $@"
 if [ $# -eq 0 ]
   then
     echo "No arguments supplied"
@@ -91,7 +138,9 @@ while getopts "c:m:g:z:" option; do
             CANVAS_FILE=${OPTARG}
             #echo "CANVAS"
             #echo $CANVAS_FILE
-            addNameIDCanvas $CANVAS_FILE
+            addNameID $CANVAS_FILE CANVAS
+            #addNameIDCanvas $CANVAS_FILE CANVAS
+
             #check that file exists
             if ! test -f "$CANVAS_FILE"; then
                 echo $CANVAS_FILE $NOFILE
@@ -102,7 +151,8 @@ while getopts "c:m:g:z:" option; do
             MOODLE_FILE=${OPTARG}
             #echo "MOODLE"
             #echo $MOODLE_FILE
-            addNameIDMoodle $MOODLE_FILE
+            addNameID $MOODLE_FILE MOODLE
+            emailVerify $MOODLE_FILE MOODLE
             if ! test -f "$MOODLE_FILE"; then
                 echo $MOODLE_FILE $NOFILE
                 exit 1
@@ -119,7 +169,8 @@ while getopts "c:m:g:z:" option; do
         ;;
         z)
             ZYBOOKS_FILE=${OPTARG}
-            addNameIDZYB $ZYBOOKS_FILE
+            addNameID $ZYBOOKS_FILE ZYBOOKS
+            emailVerify $ZYBOOKS_FILE ZYBOOKS
             #echo "ZYBOOKS"
             #echo $ZYBOOKS_FILE
             #if ! test -f "$ZYBOOKS_FILE="; then
@@ -136,12 +187,10 @@ while getopts "c:m:g:z:" option; do
 
 done
 
-
+getErrorCount
 
 
 sortedIDsCANV=()
-
-
 counterZYB=0
 counterCAN=0
 
@@ -160,12 +209,12 @@ do
       echo "ID match between student $ZybName from Zybook record"
 
       sortedIDsCANV+=($value)
-N
+
     fi
   done
 done
 
-echo $counterZYB
+
 
 
 ##ECHO SORTED##
@@ -209,4 +258,31 @@ echo $counterZYB
 #  echo $value
 #done
 
+#addNameIDMoodle(){
+#  counter=0
+#  while IFS=","; read s1 s2 s3 s4;
+#  do
+#    let "counter=counter+1"
+#    if (( $counter>1 )); then
+#      arrNamesMOOD+=($s1)
+#      arrIDsMOOD+=($s3)
+#    fi
+#  done < $1
+#}
+
+#addNameIDZYB(){
+#  fullName=""
+#  while IFS=","; read s1 s2 s3 s4 s5 s6;
+#  do
+#    let "counter=counter+1"
+#    if (( $counter>1 )); then
+#      fullName="$s2 $s1"
+#      arrNamesZYB+=($fullName)
+#      arrIDsZYB+=($s5)
+#    fi
+#  done < $1
+#}
+
+
+#echo "Script was called with $@"
 exit 0
