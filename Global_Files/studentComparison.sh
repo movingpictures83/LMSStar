@@ -11,8 +11,9 @@ NOFILE=" doesn't exist"
 ###Current functionality###
 #Verifies that files exists
 #Verifies that emails are legitimate
-#Compares ID's
-#Name only contains a-z
+#Verifies that names only contains a-z
+#Verifies that ID's match
+
 
 ###Things left###
 #Manpage
@@ -46,6 +47,11 @@ getErrorCount(){
     echo "Student's ID's matching"
   else
     echo "Not all student's ID's legitimate"
+  fi
+  if (( $nameErrors==0 )); then
+    echo "Student's names's legitimate"
+  else
+    echo "Not all student's name's legitimate"
   fi
 }
 
@@ -89,9 +95,7 @@ nameVerify(){
       done
     fi
 
-    if(( $nameErrors==0)) ; then
-      echo "Student's names legitimate"
-    fi
+
 }
 
 
@@ -233,16 +237,13 @@ while getopts "c:m:g:z:" option; do
 
 done
 
-getErrorCount
+
 
 length1=${#arrIDsZYB[@]}
 length2=${#arrIDsCANV[@]}
 sortedIDsCANV=()
 counterZYB=0
 counterCAN=0
-
-
-
 #ID and name comparison between Zybook and Canvas (MOODLE don't have studentID)
 if(( $cFlag>0 && $zFlag>0)); then
   for value in "${arrIDsZYB[@]}"
@@ -270,6 +271,7 @@ if(( $cFlag>0 && $zFlag>0)); then
   done
 
 fi
+
 nameVerify
-IDVerify
+getErrorCount
 exit 0
