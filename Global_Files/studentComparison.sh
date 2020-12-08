@@ -9,16 +9,18 @@ NOFILE=" doesn't exist"
 
 
 ###Current functionality###
-#Checks that file exists
-#Checks emails
+#Verifies that files exists
+#Verifies that emails are legitimate
 #Compares ID's
+#Name only contains a-z
 
 ###Things left###
 #Make a loop that compares the strings of the ID's. If match, figure out what number that name has in the
-#two different arrays. Then compare the emails at those same spots.
-#method that checks that name only contains a-z
+#two different arrays. Then compare the names (not emails since Canvas file misses emails) at those same spots.
+#method that checks that
 #method that checks that ID only contains digits
 #Manpage
+#Include in main script
 
 
 arrNamesCANV=()
@@ -29,12 +31,13 @@ arrNamesZYB=()
 arrIDsZYB=()
 counter=0
 emailErrors=0
+nameErrors=0
 missingID=0
 cFlag=0
 zFlag=0
 mFlag=0
 
-
+#Gets and reports errors
 getErrorCount(){
   if (( $emailErrors==0 )); then
     echo "Student's emails legitimate"
@@ -48,7 +51,53 @@ getErrorCount(){
   fi
 }
 
-#Checks that emails are legitimate
+
+nameVerify(){
+
+    #counter=0
+    if [[ $mFlag == 1 ]] ; then
+      for value in "${arrNamesMOOD[@]}"
+      do
+
+        if [[ $value =~ ^[a-zA-Z]+$ ]];then
+          :
+        else
+          echo "Invalid student name: $value"
+          let "nameErrors=nameErrors+1"
+        fi
+      done
+    fi
+
+    if [[ $cFlag == 1 ]]; then
+      for value in "${arrNamesCANV[@]}"
+      do
+        if [[ $value =~ ^[" "a-zA-Z]+$ ]];then
+          :
+        else
+          echo "Invalid student name: $value"
+          let "nameErrors=nameErrors+1"
+        fi
+      done
+    fi
+
+    if [[ $zFlag == 1 ]]; then
+      for value in "${arrNamesZYB[@]}"
+      do
+        if [[ $value =~ ^[" "a-zA-Z]+$ ]];then
+          :
+        else
+          echo "Invalid student name: $value"
+          let "nameErrors=nameErrors+1"
+        fi
+      done
+    fi
+
+    if(( $nameErrors==0)) ; then
+      echo "Student's names legitimate"
+    fi
+}
+
+#Verifies that emails are legitimate
 emailVerify(){
 
   counter=0
@@ -82,10 +131,9 @@ emailVerify(){
       fi
     done < $1
   fi
-
-    #statements
 }
 
+#Adds students names and ID's to arrays
 addNameID(){
   if [[ $2 == "CANVAS" ]] ; then
     counter=0
@@ -224,5 +272,7 @@ if(( $cFlag>0 && $zFlag>0)); then
   done
 
 fi
+m="MOODLE"
+nameVerify
 
 exit 0
