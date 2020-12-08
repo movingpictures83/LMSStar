@@ -15,10 +15,6 @@ NOFILE=" doesn't exist"
 #Name only contains a-z
 
 ###Things left###
-#Make a loop that compares the strings of the ID's. If match, figure out what number that name has in the
-#two different arrays. Then compare the names (not emails since Canvas file misses emails) at those same spots.
-#method that checks that
-#method that checks that ID only contains digits
 #Manpage
 #Include in main script
 
@@ -32,6 +28,7 @@ arrIDsZYB=()
 counter=0
 emailErrors=0
 nameErrors=0
+idErrors=0
 missingID=0
 cFlag=0
 zFlag=0
@@ -39,6 +36,7 @@ mFlag=0
 
 #Gets and reports errors
 getErrorCount(){
+
   if (( $emailErrors==0 )); then
     echo "Student's emails legitimate"
   else
@@ -51,10 +49,9 @@ getErrorCount(){
   fi
 }
 
-
+#Verifies that names only contains a-z/A-Z
 nameVerify(){
 
-    #counter=0
     if [[ $mFlag == 1 ]] ; then
       for value in "${arrNamesMOOD[@]}"
       do
@@ -96,6 +93,8 @@ nameVerify(){
       echo "Student's names legitimate"
     fi
 }
+
+
 
 #Verifies that emails are legitimate
 emailVerify(){
@@ -171,7 +170,6 @@ addNameID(){
 }
 
 
-#Main code
 
 if [ $# -eq 0 ]
   then
@@ -184,8 +182,6 @@ while getopts "c:m:g:z:" option; do
         c)
             CANVAS_FILE=${OPTARG}
             addNameID $CANVAS_FILE CANVAS
-            #addNameIDCanvas $CANVAS_FILE CANVAS
-
             #check that file exists
             if ! test -f "$CANVAS_FILE"; then
                 echo $CANVAS_FILE $NOFILE
@@ -198,6 +194,7 @@ while getopts "c:m:g:z:" option; do
             MOODLE_FILE=${OPTARG}
             addNameID $MOODLE_FILE MOODLE
             emailVerify $MOODLE_FILE MOODLE
+            #check that file exists
             if ! test -f "$MOODLE_FILE"; then
                 echo $MOODLE_FILE $NOFILE
                 exit 1
@@ -207,6 +204,7 @@ while getopts "c:m:g:z:" option; do
         ;;
         g)
             GRADESCOPE_FILE=${OPTARG}
+            #check that file exists
             if ! test -f "$GRADESCOPE_FILE="; then
                 echo $GRADESCOPE_FILE $NOFILE
                 exit 1
@@ -218,6 +216,7 @@ while getopts "c:m:g:z:" option; do
             ZYBOOKS_FILE=${OPTARG}
             addNameID $ZYBOOKS_FILE ZYBOOKS
             emailVerify $ZYBOOKS_FILE ZYBOOKS
+            #check that file exists
             #if ! test -f "$ZYBOOKS_FILE="; then
             #    echo $ZYBOOKS_FILE $NOFILE
             #    exit 1
@@ -244,7 +243,7 @@ counterCAN=0
 
 
 
-#ID and name comparison between Zybook and Canvas (only ones which had studentID)
+#ID and name comparison between Zybook and Canvas (MOODLE don't have studentID)
 if(( $cFlag>0 && $zFlag>0)); then
   for value in "${arrIDsZYB[@]}"
   do
@@ -255,7 +254,6 @@ if(( $cFlag>0 && $zFlag>0)); then
     let "counterZYB=counterZYB+1"
     for value in "${arrIDsCANV[@]}"
     do
-      #let "counterCAN=counterCAN+1"
       if [ "$ZybID" = "$value" ]; then
         #echo "ID match between student $CanName from Canvas and $ZybName from Zybook record"
         sortedIDsCANV+=($value)
@@ -272,7 +270,6 @@ if(( $cFlag>0 && $zFlag>0)); then
   done
 
 fi
-m="MOODLE"
 nameVerify
-
+IDVerify
 exit 0
