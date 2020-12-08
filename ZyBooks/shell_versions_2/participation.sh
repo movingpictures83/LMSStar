@@ -46,7 +46,7 @@ classtimeSTR=$(echo $classtime | cut -d ' ' -f1- --output-delimiter ",")
 awk -F, -v exam=${examtimeSTR} -v class=${classtimeSTR} -v adjWeight=${adjWeight} -v totPoints=${totalPoints} '
 BEGIN { split(exam, examArr,","); split(class, classArr,","); i=1;x=0; printf "Last Name,First Name,SID,Adjusted Score,Percentage\n"; } 
 NR>1 { printf "%s,%s,%s,", $1, $2, $5;
-x=(classArr[i] + (classArr[i] - examArr[i])) * adjWeight;
+x=(classArr[i] + (classArr[i] - examArr[i])* adjWeight);
 if(x<0) x = x * -1;
 printf "%.2f,%.2f\n", x, x/totPoints; 
 i = i + 1; }' $classtimeFile > $outFile

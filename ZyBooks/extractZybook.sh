@@ -1,3 +1,5 @@
+#! /bin/bash
+
 #Usage: ./extractZybook.sh (filename) (column number)
 #As of this LMSStar release, participation activities are column 7 and challenge are column 8
 #Example ./extractZybook.sh example/CDA3102/UE3/U02/0302/classtime/FIUCDA3102CickovskiSpring2020_report_2020-03-02_1530.csv 7
