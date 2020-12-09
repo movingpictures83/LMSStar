@@ -9,16 +9,15 @@ NOFILE=" doesn't exist"
 
 
 ###Current functionality###
-#Checks that file exists
-#Checks emails
-#Compares ID's
+#Verifies that files exists
+#Verifies that emails are legitimate
+#Verifies that names only contains a-z
+#Verifies that ID's match
+
 
 ###Things left###
-#Make a loop that compares the strings of the ID's. If match, figure out what number that name has in the
-#two different arrays. Then compare the emails at those same spots.
-#method that checks that name only contains a-z
-#method that checks that ID only contains digits
 #Manpage
+#Include in main script
 
 
 arrNamesCANV=()
@@ -29,13 +28,16 @@ arrNamesZYB=()
 arrIDsZYB=()
 counter=0
 emailErrors=0
+nameErrors=0
+idErrors=0
 missingID=0
 cFlag=0
 zFlag=0
 mFlag=0
 
-
+#Gets and reports errors
 getErrorCount(){
+
   if (( $emailErrors==0 )); then
     echo "Student's emails legitimate"
   else
@@ -46,9 +48,59 @@ getErrorCount(){
   else
     echo "Not all student's ID's legitimate"
   fi
+  if (( $nameErrors==0 )); then
+    echo "Student's names's legitimate"
+  else
+    echo "Not all student's name's legitimate"
+  fi
 }
 
-#Checks that emails are legitimate
+#Verifies that names only contains a-z/A-Z
+nameVerify(){
+
+    if [[ $mFlag == 1 ]] ; then
+      for value in "${arrNamesMOOD[@]}"
+      do
+
+        if [[ $value =~ ^[a-zA-Z]+$ ]];then
+          :
+        else
+          echo "Invalid student name: $value"
+          let "nameErrors=nameErrors+1"
+        fi
+      done
+    fi
+
+    if [[ $cFlag == 1 ]]; then
+      for value in "${arrNamesCANV[@]}"
+      do
+        if [[ $value =~ ^[" "a-zA-Z]+$ ]];then
+          :
+        else
+          echo "Invalid student name: $value"
+          let "nameErrors=nameErrors+1"
+        fi
+      done
+    fi
+
+    if [[ $zFlag == 1 ]]; then
+      for value in "${arrNamesZYB[@]}"
+      do
+        if [[ $value =~ ^[" "a-zA-Z]+$ ]];then
+          :
+        else
+          echo "Invalid student name: $value"
+          let "nameErrors=nameErrors+1"
+        fi
+      done
+    fi
+
+
+}
+
+
+
+#Verifies that emails are legitimate
 emailVerify(){
 
   counter=0
@@ -82,10 +134,9 @@ emailVerify(){
       fi
     done < $1
   fi
-
-    #statements
 }
 
+#Adds students names and ID's to arrays
 addNameID(){
   if [[ $2 == "CANVAS" ]] ; then
     counter=0
@@ -123,7 +174,6 @@ addNameID(){
 }
 
 
-#Main code
 
 if [ $# -eq 0 ]
   then
@@ -136,8 +186,6 @@ while getopts "c:m:g:z:" option; do
         c)
             CANVAS_FILE=${OPTARG}
             addNameID $CANVAS_FILE CANVAS
-            #addNameIDCanvas $CANVAS_FILE CANVAS
-
             #check that file exists
             if ! test -f "$CANVAS_FILE"; then
                 echo $CANVAS_FILE $NOFILE
@@ -150,6 +198,7 @@ while getopts "c:m:g:z:" option; do
             MOODLE_FILE=${OPTARG}
             addNameID $MOODLE_FILE MOODLE
             emailVerify $MOODLE_FILE MOODLE
+            #check that file exists
             if ! test -f "$MOODLE_FILE"; then
                 echo $MOODLE_FILE $NOFILE
                 exit 1
@@ -159,6 +208,7 @@ while getopts "c:m:g:z:" option; do
         ;;
         g)
             GRADESCOPE_FILE=${OPTARG}
+            #check that file exists
             if ! test -f "$GRADESCOPE_FILE="; then
                 echo $GRADESCOPE_FILE $NOFILE
                 exit 1
@@ -170,6 +220,7 @@ while getopts "c:m:g:z:" option; do
             ZYBOOKS_FILE=${OPTARG}
             addNameID $ZYBOOKS_FILE ZYBOOKS
             emailVerify $ZYBOOKS_FILE ZYBOOKS
+            #check that file exists
             #if ! test -f "$ZYBOOKS_FILE="; then
             #    echo $ZYBOOKS_FILE $NOFILE
             #    exit 1
@@ -186,17 +237,14 @@ while getopts "c:m:g:z:" option; do
 
 done
 
-getErrorCount
+
 
 length1=${#arrIDsZYB[@]}
 length2=${#arrIDsCANV[@]}
 sortedIDsCANV=()
 counterZYB=0
 counterCAN=0
-
-
-
-#ID and name comparison between Zybook and Canvas (only ones which had studentID)
+#ID and name comparison between Zybook and Canvas (MOODLE don't have studentID)
 if(( $cFlag>0 && $zFlag>0)); then
   for value in "${arrIDsZYB[@]}"
   do
@@ -207,7 +255,6 @@ if(( $cFlag>0 && $zFlag>0)); then
     let "counterZYB=counterZYB+1"
     for value in "${arrIDsCANV[@]}"
     do
-      #let "counterCAN=counterCAN+1"
       if [ "$ZybID" = "$value" ]; then
         #echo "ID match between student $CanName from Canvas and $ZybName from Zybook record"
         sortedIDsCANV+=($value)
@@ -225,4 +272,6 @@ if(( $cFlag>0 && $zFlag>0)); then
 
 fi
 
+nameVerify
+getErrorCount
 exit 0
