@@ -1,0 +1,16 @@
+.TH parser 1 2020-12-08 LMSSTAR
+
+.SH NAME
+parser.sh
+
+.SH SYNOPSIS
+.B participation.sh
+(input file)
+(column number)
+
+.SH DESCRIPTION
+.B participation.sh
+Retrieves the student's first and last name and the requested column number and prints all 3 column
+
+.SH AUTHOR
+Maurice Barnes
