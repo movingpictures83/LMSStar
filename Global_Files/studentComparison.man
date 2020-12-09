@@ -14,8 +14,8 @@ studentComparison.sh
 
 .SH OPTIONS
 .TP
-.BR (sections<List>)
+.BR 
 use -c flag for Canvas file input, -m flag for Moodle file input and/or -z file for Zybooks file input 
 
 .SH AUTHOR
-Alexander Brix <rlszabo966@gmail.com>
+Alexander Brix
