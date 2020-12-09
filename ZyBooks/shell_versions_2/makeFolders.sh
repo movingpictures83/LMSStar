@@ -4,9 +4,8 @@ USAGE="./makeFolders.sh (root directory) (course) (exam) (n=number of sections) 
 
 # SAVE ARGUMENTS TO ARRAY, if ARGS=0, exit
 if [ "$#" -eq 0 ]; then
-    echo PLEASE FOLLOW CORRECT USAGE:
     echo $USAGE
-    exit
+    exit 1
 else
     CMD_ARGS=( "$@" )
 fi

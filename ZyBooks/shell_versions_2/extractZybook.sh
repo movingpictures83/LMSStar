@@ -1,12 +1,29 @@
 #!/bin/bash
 # USAGE: ./extractZybook.sh (filename) (column number)
+USAGE="./extractZybook.sh (filename) (column number)"
 file=$1
-column=$2
+columns=$(echo $* | cut -d ' ' -f2-)
+columnsArr=($columns)
+echo $columns
 OLDIFS=$IFS
 IFS="(,|\ )"
 
-while read -a array
-do
-	printf "%s %s %s\n" "${array[1]}" "${array[2]}" "${array[$column]}"
-done < $file
-IFS=$OLDIFS
+if [ $# -lt 2 ]
+then
+	echo "Usage: ./extractZybook.sh (filename) (column number)"
+	exit 2
+fi
+
+if [ ! -e ${file} ]; then
+	echo "ERROR: Your given file does not exist"
+	echo $USAGE
+fi
+
+ while read -a array; do
+	printf "%s,%s" "${array[1]}" "${array[2]}"
+	for col in ${columns[@]}; do
+		printf ",%s" "${array[$col]}"
+	done
+	printf "\n"
+ done < $file
+ IFS=$OLDIFS

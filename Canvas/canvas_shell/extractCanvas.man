@@ -1,0 +1,10 @@
+.TH extractCanvas 1 2020-11-23 LMSSTAR
+.SH NAME
+extractCanvas \- Extract one or more columns from a Canvas .csv
+.SH SYNOPSIS
+.B extractCanvas (input .csv file) (column number<LIST>)
+.SH DESCRIPTION
+.B extractCanvas
+Run the script with your input file as the first argument. Enter at least one column to extract. Arguments are separated by spaces.
+.SH AUTHOR
+Robert Szabo <rlszabo966@gmail.com>

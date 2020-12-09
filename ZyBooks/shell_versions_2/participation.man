@@ -1,0 +1,26 @@
+.TH participation 1 2020-11-23 LMSSTAR
+
+.SH NAME
+participation.sh
+
+.SH SYNOPSIS
+.B participation.sh
+(classtime file)
+(examtime file)
+(output .csv file)
+(data col num)
+(total points possible)
+[grade weight adjustment]
+
+.SH DESCRIPTION
+.B participation.sh
+Allows for calculation of a grade score where there is a wheight after a certain period.
+Requires A .csv of student scores before the grade-adjustment deadline, & after.
+
+.SH OPTIONS
+.TP
+.BR [grade weight adjustment]
+specify a decimal number for the new grade weight. e.g. 0.50, 0.75, 0.60. DEFAULT is 0.75 if nothing is specified.
+
+.SH AUTHOR
+Robert Laszlo Szabo <rlszabo966@gmail.com>
