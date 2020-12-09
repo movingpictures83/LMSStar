@@ -1,0 +1,11 @@
+.\" Manpage for extractZybooks.
+.TH man 8 "26 Nov 2020" "1.0" "extractZybooks man page"
+.SH NAME
+USAGE: ./extractZybook.sh (filename) (column number) 
+.SH SYNOPSIS
+This script extracts csv column information from specified file from user.
+.SH DESCRIPTION
+extractZybooks is that prints information from a CSV file given a column and file
+No known bugs.
+.SH AUTHOR
+Robert Szabo 

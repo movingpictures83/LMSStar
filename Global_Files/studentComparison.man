@@ -1,0 +1,21 @@
+.TH STUDENTCOMPARISON 1 2020-12-08 LMSSTAR
+
+.SH NAME
+studentComparison.sh
+
+.SH SYNOPSIS
+.B studentComparison
+#USAGE: ./studentComparison.sh (Canvas File) (Moodle File) [Gradescope file] [ZyBooks file]
+
+
+.SH DESCRIPTION
+.B studentComparison.sh
+
+
+.SH OPTIONS
+.TP
+.BR 
+use -c flag for Canvas file input, -m flag for Moodle file input and/or -z file for Zybooks file input 
+
+.SH AUTHOR
+Alexander Brix
