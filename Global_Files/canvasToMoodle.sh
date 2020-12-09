@@ -45,7 +45,8 @@ while read -a arr; do
         department=$(echo ${arr[4]} | cut -d "-" -f3)
         # echo $emailURL
     fi
-    firstNames+=" $(echo ${arr[0]} | cut -d " " -f1)"
+    firstNames+=" $(echo ${arr[0]} | cut -d " " --output-delimiter "," -f1)"
+    
     lastNames+=,$(echo ${arr[0]} | cut -d " " -f2-)
     emails+=,${arr[3]}@${emailURL}
     studentIDs+=,${arr[2]}
