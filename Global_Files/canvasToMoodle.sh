@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#### Script is used to convert Canvas data to Moodle data or vice versa ####
+#### Script is used to convert Canvas data to Moodle data ####
 
 #USAGE: ./canvasToMoodle (Canvas infile) (Moodle outfile)
 USAGE="USAGE: ./canvasToMoodle (Canvas infile) (Moodle outfile)"
@@ -22,15 +22,13 @@ fi
 #automatic conversion of a bad file to csv
 
 fileExt=$(echo ${outFile} | cut -d "." -f2)
-
 if [ "$fileExt" != "csv" ]; then
     echo "WARNING: outfile should be \".csv\" ... Changing extention."
     outFile2=$(echo ${outFile} | sed "s/.${fileExt}/.csv/")
     outFile=$outFile2
     unset outFile2
-    echo $outFile
 fi
-
+#exits if outfile exists
 if [ -e $outFile ]; then
     echo "ERROR! Your output file already exists. Choose another name or location."
     echo $USAGE
@@ -67,7 +65,7 @@ while read -a arr; do
     studentIDs+=-${arr[2]}
     ((counter=counter+1))
 done < $inFile
-
+#removes unneccessary data from start of string. comment out to see difference
 firstNames=${firstNames:10}
 lastNames=${lastNames:10}
 emails=${emails:17}
