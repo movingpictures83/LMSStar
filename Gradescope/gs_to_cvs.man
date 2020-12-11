@@ -10,6 +10,7 @@ gs_to_csv.sh
 
 .SH DESCRIPTION
 .B gs_to_csv.sh
+Converts Gradescope files to canvas files
 
 .SH AUTHOR
 Maurice Barnes

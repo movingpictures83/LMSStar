@@ -8,7 +8,7 @@
 #$2 = column number
 
 if [ "$#" -ne 3 ]; then
-	echo "Usage: 2 arguments required. Inputfile, and colun number";
+	echo "Usage: 2 arguments required. Inputfile, and column number";
 	exit 2;
 fi
 
