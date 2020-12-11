@@ -5,10 +5,7 @@
 #USAGE: ./moodleToCanvas (Moodle read-from file) (Canvas write-to file)
 
 now=$(date +"%T")
-
 INPUT=$1
-echo $INPUT
-
 studentName=()
 ID=()
 
@@ -25,6 +22,14 @@ addValues(){
     done < $INPUT
     IFS=$OLDIFS
 }
+
+
+if [ $# -eq 0 ]
+  then
+    echo "No arguments supplied"
+    exit 1
+fi
+
 
 addValues $MOODLE_FILE
 
