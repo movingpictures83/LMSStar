@@ -4,12 +4,12 @@
 parser.sh
 
 .SH SYNOPSIS
-.B participation.sh
+.B parser.sh
 (input file)
 (column number)
 
 .SH DESCRIPTION
-.B participation.sh
+.B parser.sh
 Retrieves the student's first and last name and the requested column number and prints all 3 column
 
 .SH AUTHOR

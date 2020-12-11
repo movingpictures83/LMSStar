@@ -1,0 +1,59 @@
+.TH DRIVER 1 2020-12-11 LMSSTAR
+
+.SH NAME
+driver.sh
+
+.SH SYNOPSIS
+.B driver
+Main script used to invoke other scirpts all from one place
+
+.SH DESCRIPTION
+.B driver.sh
+This script is meant to be a one stop shop for all scripts in this project. Every script can be called and ran from this driver script
+
+.SH OPTIONS
+.B driver.sh
+
+-g2c, --gradescopetocanvas
+    Converts Gradescope csv to canvas csv
+    #USAGE: ./driver.sh -g2c (input filename) (output filename) (exam name)
+
+-c2m, --canvastomoodle
+    Converts Canvas csv to Moodle csv
+    #USAGE: ./driver.sh -c2m (Canvas infile) (Moodle outfile)
+
+-c2g, --canvastogradescope
+    Converts Canvas csv to Gradescope csv
+    #USAGE: ./driver.sh -c2g (Canvas exam column) (Canvas .csv file) (gradescope .csv file)
+
+-ec, --extractcanvas
+    Extract one or more columns from a Canvas .csv
+    #USAGE: ./driver.sh -ec (input .csv file) (column numbers<LIST>)
+
+-gg, --gradesgradescope
+    Extracts names and scores from Gradescope CSV to output file
+    #USAGE: ./driver.sh -gg [FILENAME] [OUTPUTFILE]
+
+-mp, --moodleparser 
+    Retrieves the student's first and last name and the requested column number and prints all 3 column
+    #USAGE: ./driver.sh -mp (input file) (column number)
+
+-ez, --extractzybook 
+    Extracts csv column information from specified file from user
+    #USAGE: ./driver.sh -ez (filename) (column number)
+
+-mfz, --makefolderszybooks
+    Creates directories for a course in the order of: COURSE>EXAM>SECTIONS
+    USAGE: ./driver.sh -mfz (root directory) (course) (exam) (n=number of sections) (section 1)...(section n) (dates, arbitrarily long)
+
+-pz, --participationzybooks 
+    Allows for calculation of a grade score where there is a wheight after a certain period.
+    Requires A .csv of student scores before the grade-adjustment deadline, & after.
+    USAGE: ./driver.sh -pz (classtime file) (examtime file) (outputfile csv) (data column number) (total points possible) [weight adjustment]
+
+-m, --manpage 
+    Opens manpage for the driver script
+    USAGE: ./driver.sh -m
+
+.SH AUTHOR
+Maurice Barnes
